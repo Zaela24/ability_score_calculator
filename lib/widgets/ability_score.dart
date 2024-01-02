@@ -1,17 +1,20 @@
+import 'package:ability_score_calculator/data/races.dart';
 import 'package:ability_score_calculator/models/campaign_type.dart';
 import 'package:ability_score_calculator/models/score_costs.dart';
 import 'package:flutter/material.dart';
 
-class AbilityScoreScreen extends StatefulWidget {
-  const AbilityScoreScreen({super.key});
+class PathfinderPointBuyScreen extends StatefulWidget {
+  const PathfinderPointBuyScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _AbilityScoreScreenState();
+  State<PathfinderPointBuyScreen> createState() =>
+      _PathfinderPointBuyScreenState();
 }
 
-class _AbilityScoreScreenState extends State<AbilityScoreScreen> {
+class _PathfinderPointBuyScreenState extends State<PathfinderPointBuyScreen> {
   final TextEditingController otherScoreController = TextEditingController();
-  int? selectedScore = 15; // set default score to 'standard'
+  int? selectedScore = 15; // set default score to 'Standard Fantasy'
+  String? selectedRace = 'Dwarf';
   final double scoreDropdownWidth = 75;
   final Map<String, int> abilityCosts = {
     'STR': 0,
@@ -35,7 +38,8 @@ class _AbilityScoreScreenState extends State<AbilityScoreScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
+            Wrap(
+              runSpacing: 16,
               children: [
                 SizedBox(
                   width: 225,
@@ -69,7 +73,8 @@ class _AbilityScoreScreenState extends State<AbilityScoreScreen> {
                     },
                   ),
                 ),
-                Expanded(
+                SizedBox(
+                  width: 150,
                   child: TextField(
                     controller: otherScoreController,
                     keyboardType: TextInputType.number,
@@ -89,9 +94,33 @@ class _AbilityScoreScreenState extends State<AbilityScoreScreen> {
                       }
                     },
                   ),
-                )
+                ),
+                if (MediaQuery.of(context).size.width > 500)
+                  const SizedBox(
+                    width: 16,
+                  ),
+                DropdownMenu(
+                  dropdownMenuEntries: [
+                    for (final race in races)
+                      DropdownMenuEntry(value: race.name, label: race.name)
+                  ],
+                  initialSelection: selectedRace,
+                  onSelected: (race) {
+                    setState(() {
+                      selectedRace = race;
+                    });
+                  },
+                  inputDecorationTheme: const InputDecorationTheme(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(16),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
+            const SizedBox(height: 16),
             Scrollbar(
               thumbVisibility: true,
               child: SingleChildScrollView(
@@ -127,8 +156,19 @@ class _AbilityScoreScreenState extends State<AbilityScoreScreen> {
                         ),
                       )),
                       DataCell(Text(abilityCost.value.toString())),
-                      const DataCell(Text('0')),
-                      DataCell.empty,
+                      DataCell(Text(races
+                          .firstWhere((race) => race.name == selectedRace)
+                          .abilityScoreMods[abilityCost.key]
+                          .toString())),
+                      DataCell(Text((pathfinder1eScoreCosts.keys.firstWhere(
+                                  (key) =>
+                                      pathfinder1eScoreCosts[key] ==
+                                      abilityCosts[abilityCost.key]) +
+                              races
+                                  .firstWhere(
+                                      (race) => race.name == selectedRace)
+                                  .abilityScoreMods[abilityCost.key]!)
+                          .toString())),
                       DataCell.empty
                     ]),
                 ]),
