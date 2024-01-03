@@ -25,6 +25,8 @@ class _PathfinderPointBuyScreenState extends State<PathfinderPointBuyScreen> {
     'CHA': 0,
   };
 
+  int get abilityCostTotal => abilityCosts.values.reduce((a, b) => a + b);
+
   @override
   Widget build(BuildContext context) {
     otherScoreController.text = selectedScore.toString();
@@ -192,7 +194,20 @@ class _PathfinderPointBuyScreenState extends State<PathfinderPointBuyScreen> {
                     ]),
                 ]),
               ),
-            )
+            ),
+            const SizedBox(height: 16),
+            const Text(
+              'Total Cost:',
+              style: TextStyle(fontSize: 22),
+            ),
+            Text(
+              '$abilityCostTotal/$selectedScore',
+              style: TextStyle(
+                  fontSize: 50,
+                  color: abilityCostTotal > selectedScore!
+                      ? Theme.of(context).colorScheme.error
+                      : Theme.of(context).colorScheme.onBackground),
+            ),
           ],
         ),
       ),
