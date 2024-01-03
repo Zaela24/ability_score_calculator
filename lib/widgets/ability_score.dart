@@ -28,6 +28,24 @@ class _PathfinderPointBuyScreenState extends State<PathfinderPointBuyScreen> {
   @override
   Widget build(BuildContext context) {
     otherScoreController.text = selectedScore.toString();
+    Map<String, int> abilityTotals = {
+      'STR': 0,
+      'DEX': 0,
+      'CON': 0,
+      'INT': 0,
+      'WIS': 0,
+      'CHA': 0,
+    };
+    for (final abilityCost in abilityCosts.entries) {
+      abilityTotals[abilityCost.key] = pathfinder1eScoreCosts.keys.firstWhere(
+              (key) =>
+                  pathfinder1eScoreCosts[key] ==
+                  abilityCosts[abilityCost.key]) +
+          races
+              .firstWhere((race) => race.name == selectedRace)
+              .abilityScoreMods[abilityCost.key]!;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Ability Scores'),
@@ -155,21 +173,22 @@ class _PathfinderPointBuyScreenState extends State<PathfinderPointBuyScreen> {
                               border: InputBorder.none),
                         ),
                       )),
+                      // ability score point buy cost
                       DataCell(Text(abilityCost.value.toString())),
+                      // racial modifier
                       DataCell(Text(races
                           .firstWhere((race) => race.name == selectedRace)
                           .abilityScoreMods[abilityCost.key]
                           .toString())),
-                      DataCell(Text((pathfinder1eScoreCosts.keys.firstWhere(
-                                  (key) =>
-                                      pathfinder1eScoreCosts[key] ==
-                                      abilityCosts[abilityCost.key]) +
-                              races
-                                  .firstWhere(
-                                      (race) => race.name == selectedRace)
-                                  .abilityScoreMods[abilityCost.key]!)
-                          .toString())),
-                      DataCell.empty
+                      // total score
+                      DataCell(
+                          Text((abilityTotals[abilityCost.key]).toString())),
+                      // modifer -- displays + if total score 12+
+                      DataCell(Text(abilityTotals[abilityCost.key]! > 11
+                          ? '+${((abilityTotals[abilityCost.key]! - 10) / 2).truncate()}'
+                          : ((abilityTotals[abilityCost.key]! - 10) / 2)
+                              .truncate()
+                              .toString())),
                     ]),
                 ]),
               ),
