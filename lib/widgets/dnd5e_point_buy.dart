@@ -1,20 +1,19 @@
 import 'package:ability_score_calculator/data/races.dart';
-import 'package:ability_score_calculator/models/campaign_type.dart';
+import 'package:ability_score_calculator/models/race.dart';
 import 'package:ability_score_calculator/models/score_costs.dart';
 import 'package:flutter/material.dart';
 
-class PathfinderPointBuyScreen extends StatefulWidget {
-  const PathfinderPointBuyScreen({super.key});
+class DND5ePointBuyScreen extends StatefulWidget {
+  const DND5ePointBuyScreen({super.key});
 
   @override
-  State<PathfinderPointBuyScreen> createState() =>
-      _PathfinderPointBuyScreenState();
+  State<DND5ePointBuyScreen> createState() => _DND5ePointBuyScreenState();
 }
 
-class _PathfinderPointBuyScreenState extends State<PathfinderPointBuyScreen> {
+class _DND5ePointBuyScreenState extends State<DND5ePointBuyScreen> {
   final TextEditingController otherScoreController = TextEditingController();
-  int? selectedScore = 15; // set default score to 'Standard Fantasy'
-  String? selectedRace = 'Dwarf';
+  String? selectedRace = 'Dragonborn';
+  String? selectedSubRace;
   final double scoreDropdownWidth = 75;
   final Map<String, int> abilityCosts = {
     'STR': 0,
@@ -29,7 +28,6 @@ class _PathfinderPointBuyScreenState extends State<PathfinderPointBuyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    otherScoreController.text = selectedScore.toString();
     Map<String, int> abilityTotals = {
       'STR': 0,
       'DEX': 0,
@@ -38,14 +36,20 @@ class _PathfinderPointBuyScreenState extends State<PathfinderPointBuyScreen> {
       'WIS': 0,
       'CHA': 0,
     };
+    List<Race>? subRaces =
+        dnd5eRaces.firstWhere((race) => race.name == selectedRace).subRaces;
+
     for (final abilityCost in abilityCosts.entries) {
-      abilityTotals[abilityCost.key] = pathfinder1eScoreCosts.keys.firstWhere(
-              (key) =>
-                  pathfinder1eScoreCosts[key] ==
-                  abilityCosts[abilityCost.key]) +
-          pathinderRaces
+      abilityTotals[abilityCost.key] = dnd5eScoreCosts.keys.firstWhere(
+              (key) => dnd5eScoreCosts[key] == abilityCosts[abilityCost.key]) +
+          dnd5eRaces
               .firstWhere((race) => race.name == selectedRace)
-              .abilityScoreMods[abilityCost.key]!;
+              .abilityScoreMods[abilityCost.key]! +
+          (subRaces != null
+              ? subRaces
+                  .firstWhere((subRace) => subRace.name == selectedSubRace)
+                  .abilityScoreMods[abilityCost.key]!
+              : 0);
     }
 
     return Scaffold(
@@ -59,69 +63,11 @@ class _PathfinderPointBuyScreenState extends State<PathfinderPointBuyScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Wrap(
-              runSpacing: 16,
+              runSpacing: 8,
               children: [
-                SizedBox(
-                  width: 225,
-                  child: DropdownMenu(
-                    enableSearch: false,
-                    inputDecorationTheme: const InputDecorationTheme(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(16),
-                        ),
-                      ),
-                    ),
-                    dropdownMenuEntries: [
-                      ...CampaignType.values.map(
-                        (CampaignType campaignType) => DropdownMenuEntry(
-                          value: campaignTypePoints[campaignType],
-                          label: campaignType.adjustedName,
-                        ),
-                      ),
-                      DropdownMenuEntry(
-                        value: int.tryParse(otherScoreController.text) ?? 0,
-                        label: 'Other',
-                      )
-                    ],
-                    initialSelection: selectedScore,
-                    onSelected: (campaignTypeScore) {
-                      setState(() {
-                        selectedScore = campaignTypeScore;
-                        otherScoreController.text = selectedScore.toString();
-                      });
-                    },
-                  ),
-                ),
-                SizedBox(
-                  width: 150,
-                  child: TextField(
-                    controller: otherScoreController,
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                      labelText: 'Point Buy Score',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(16),
-                        ),
-                      ),
-                    ),
-                    onChanged: (value) {
-                      if (value.isNotEmpty) {
-                        setState(() {
-                          selectedScore = int.tryParse(value);
-                        });
-                      }
-                    },
-                  ),
-                ),
-                if (MediaQuery.of(context).size.width > 500)
-                  const SizedBox(
-                    width: 16,
-                  ),
                 DropdownMenu(
                   dropdownMenuEntries: [
-                    for (final race in pathinderRaces)
+                    for (final race in dnd5eRaces)
                       DropdownMenuEntry(value: race.name, label: race.name)
                   ],
                   initialSelection: selectedRace,
@@ -138,6 +84,27 @@ class _PathfinderPointBuyScreenState extends State<PathfinderPointBuyScreen> {
                     ),
                   ),
                 ),
+                const SizedBox(width: 8),
+                if (subRaces != null)
+                  DropdownMenu(
+                    dropdownMenuEntries: [
+                      for (final subRace in subRaces)
+                        DropdownMenuEntry(
+                            value: subRace.name, label: subRace.name)
+                    ],
+                    onSelected: (subRace) {
+                      setState(() {
+                        selectedSubRace = subRace;
+                      });
+                    },
+                    inputDecorationTheme: const InputDecorationTheme(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(16),
+                        ),
+                      ),
+                    ),
+                  ),
               ],
             ),
             const SizedBox(height: 16),
@@ -149,7 +116,7 @@ class _PathfinderPointBuyScreenState extends State<PathfinderPointBuyScreen> {
                   DataColumn(label: Text('Ability')),
                   DataColumn(label: Text('Points')),
                   DataColumn(label: Text('Cost')),
-                  DataColumn(label: Text('Racial Trait')),
+                  DataColumn(label: Text('Racial Bonus')),
                   DataColumn(label: Text('Total')),
                   DataColumn(label: Text('Mod'))
                 ], rows: [
@@ -160,7 +127,7 @@ class _PathfinderPointBuyScreenState extends State<PathfinderPointBuyScreen> {
                         width: scoreDropdownWidth,
                         child: DropdownMenu(
                           width: scoreDropdownWidth,
-                          dropdownMenuEntries: pathfinder1eScoreCosts.entries
+                          dropdownMenuEntries: dnd5eScoreCosts.entries
                               .map((scoreCost) => DropdownMenuEntry(
                                   value: scoreCost.value,
                                   label: scoreCost.key.toString()))
@@ -178,9 +145,16 @@ class _PathfinderPointBuyScreenState extends State<PathfinderPointBuyScreen> {
                       // ability score point buy cost
                       DataCell(Text(abilityCost.value.toString())),
                       // racial modifier
-                      DataCell(Text(pathinderRaces
-                          .firstWhere((race) => race.name == selectedRace)
-                          .abilityScoreMods[abilityCost.key]
+                      DataCell(Text((dnd5eRaces
+                                  .firstWhere(
+                                      (race) => race.name == selectedRace)
+                                  .abilityScoreMods[abilityCost.key]! +
+                              (subRaces != null
+                                  ? subRaces
+                                      .firstWhere((subRace) =>
+                                          subRace.name == selectedSubRace)
+                                      .abilityScoreMods[abilityCost.key]!
+                                  : 0))
                           .toString())),
                       // total score
                       DataCell(
@@ -201,10 +175,10 @@ class _PathfinderPointBuyScreenState extends State<PathfinderPointBuyScreen> {
               style: TextStyle(fontSize: 22),
             ),
             Text(
-              '$abilityCostTotal/$selectedScore',
+              '$abilityCostTotal/27',
               style: TextStyle(
                   fontSize: 50,
-                  color: abilityCostTotal > selectedScore!
+                  color: abilityCostTotal > 27
                       ? Theme.of(context).colorScheme.error
                       : Theme.of(context).colorScheme.onBackground),
             ),

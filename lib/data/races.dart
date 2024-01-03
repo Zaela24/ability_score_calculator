@@ -1,6 +1,6 @@
 import 'package:ability_score_calculator/models/race.dart';
 
-List<Race> races = [
+List<Race> pathinderRaces = [
   Race(name: 'Dwarf', abilityScoreMods: {
     'STR': 0,
     'DEX': 0,
@@ -69,4 +69,175 @@ List<Race> races = [
       'CHA': 0,
     },
   ),
+];
+
+List<Race> dnd5eRaces = [
+  Race(name: 'Dragonborn', abilityScoreMods: {
+    'STR': 2,
+    'DEX': 0,
+    'CON': 0,
+    'INT': 0,
+    'WIS': 0,
+    'CHA': 1,
+  }),
+  Race(name: 'Dwarf', abilityScoreMods: {
+    'STR': 0,
+    'DEX': 0,
+    'CON': 2,
+    'INT': 0,
+    'WIS': 0,
+    'CHA': 0,
+  }, subRaces: [
+    Race(name: 'Hill Dwarf', abilityScoreMods: {
+      'STR': 0,
+      'DEX': 0,
+      'CON': 0,
+      'INT': 0,
+      'WIS': 1,
+      'CHA': 0,
+    }),
+    Race(name: 'Mountain Dwarf', abilityScoreMods: {
+      'STR': 2,
+      'DEX': 0,
+      'CON': 0,
+      'INT': 0,
+      'WIS': 0,
+      'CHA': 0,
+    }),
+    Race(name: 'Duergar', abilityScoreMods: {
+      'STR': 1,
+      'DEX': 0,
+      'CON': 0,
+      'INT': 0,
+      'WIS': 0,
+      'CHA': 0,
+    }),
+  ]),
+  Race(name: 'Elf', abilityScoreMods: {
+    'STR': 0,
+    'DEX': 2,
+    'CON': 0,
+    'INT': 0,
+    'WIS': 0,
+    'CHA': 0,
+  }, subRaces: [
+    Race(name: 'Eladrin', abilityScoreMods: {
+      'STR': 0,
+      'DEX': 0,
+      'CON': 0,
+      'INT': 1,
+      'WIS': 0,
+      'CHA': 0,
+    }),
+    Race(name: 'High Elf', abilityScoreMods: {
+      'STR': 0,
+      'DEX': 0,
+      'CON': 0,
+      'INT': 1,
+      'WIS': 0,
+      'CHA': 0,
+    }),
+    Race(name: 'Wood Elf', abilityScoreMods: {
+      'STR': 0,
+      'DEX': 0,
+      'CON': 0,
+      'INT': 0,
+      'WIS': 1,
+      'CHA': 0,
+    }),
+    Race(name: 'Drow', abilityScoreMods: {
+      'STR': 0,
+      'DEX': 0,
+      'CON': 0,
+      'INT': 0,
+      'WIS': 0,
+      'CHA': 1,
+    }),
+  ]),
+  Race(name: 'Gnome', abilityScoreMods: {
+    'STR': 0,
+    'DEX': 0,
+    'CON': 0,
+    'INT': 2,
+    'WIS': 0,
+    'CHA': 0,
+  }, subRaces: [
+    Race(name: 'Deep Gnome', abilityScoreMods: {
+      'STR': 0,
+      'DEX': 1,
+      'CON': 0,
+      'INT': 0,
+      'WIS': 0,
+      'CHA': 0,
+    }),
+    Race(name: 'Rock Gnome', abilityScoreMods: {
+      'STR': 0,
+      'DEX': 0,
+      'CON': 1,
+      'INT': 0,
+      'WIS': 0,
+      'CHA': 0,
+    }),
+  ]),
+  Race(
+    name: 'Half-Elf',
+    abilityScoreMods: {
+      // +1 to any two
+      'STR': 0,
+      'DEX': 0,
+      'CON': 0,
+      'INT': 0,
+      'WIS': 0,
+      'CHA': 2,
+    },
+  ),
+  Race(name: 'Half-Orc', abilityScoreMods: {
+    'STR': 2,
+    'DEX': 0,
+    'CON': 1,
+    'INT': 0,
+    'WIS': 0,
+    'CHA': 0,
+  }),
+  Race(name: 'Halfling', abilityScoreMods: {
+    'STR': 0,
+    'DEX': 2,
+    'CON': 0,
+    'INT': 0,
+    'WIS': 0,
+    'CHA': 0,
+  }, subRaces: [
+    Race(name: 'Lightfoot Halfling', abilityScoreMods: {
+      'STR': 0,
+      'DEX': 0,
+      'CON': 0,
+      'INT': 0,
+      'WIS': 0,
+      'CHA': 1,
+    }),
+    Race(name: 'Stout Halfling', abilityScoreMods: {
+      'STR': 0,
+      'DEX': 0,
+      'CON': 1,
+      'INT': 0,
+      'WIS': 0,
+      'CHA': 0,
+    }),
+  ]),
+  Race(name: 'Human', abilityScoreMods: {
+    'STR': 1,
+    'DEX': 1,
+    'CON': 1,
+    'INT': 1,
+    'WIS': 1,
+    'CHA': 1,
+  }),
+  Race(name: 'Tiefling', abilityScoreMods: {
+    'STR': 0,
+    'DEX': 0,
+    'CON': 0,
+    'INT': 1,
+    'WIS': 0,
+    'CHA': 2,
+  }),
 ];

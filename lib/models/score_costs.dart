@@ -12,3 +12,14 @@ Map<int, int> pathfinder1eScoreCosts = {
   17: 13,
   18: 17,
 };
+
+Map<int, int> dnd5eScoreCosts = {
+  8: 0,
+  9: 1,
+  10: 2,
+  11: 3,
+  12: 4,
+  13: 5,
+  14: 7,
+  15: 9,
+};

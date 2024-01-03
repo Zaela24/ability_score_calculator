@@ -1,4 +1,5 @@
-import 'package:ability_score_calculator/widgets/ability_score.dart';
+import 'package:ability_score_calculator/widgets/dnd5e_point_buy.dart';
+import 'package:ability_score_calculator/widgets/pathinder_point_buy.dart';
 import 'package:flutter/material.dart';
 
 void main() {
