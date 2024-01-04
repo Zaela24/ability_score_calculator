@@ -45,7 +45,7 @@ class _DND5ePointBuyScreenState extends State<DND5ePointBuyScreen> {
           dnd5eRaces
               .firstWhere((race) => race.name == selectedRace)
               .abilityScoreMods[abilityCost.key]! +
-          (subRaces != null
+          (subRaces != null && selectedSubRace != null
               ? subRaces
                   .firstWhere((subRace) => subRace.name == selectedSubRace)
                   .abilityScoreMods[abilityCost.key]!
@@ -149,7 +149,7 @@ class _DND5ePointBuyScreenState extends State<DND5ePointBuyScreen> {
                                   .firstWhere(
                                       (race) => race.name == selectedRace)
                                   .abilityScoreMods[abilityCost.key]! +
-                              (subRaces != null
+                              (subRaces != null && selectedSubRace != null
                                   ? subRaces
                                       .firstWhere((subRace) =>
                                           subRace.name == selectedSubRace)
@@ -161,9 +161,9 @@ class _DND5ePointBuyScreenState extends State<DND5ePointBuyScreen> {
                           Text((abilityTotals[abilityCost.key]).toString())),
                       // modifer -- displays + if total score 12+
                       DataCell(Text(abilityTotals[abilityCost.key]! > 11
-                          ? '+${((abilityTotals[abilityCost.key]! - 10) / 2).truncate()}'
+                          ? '+${((abilityTotals[abilityCost.key]! - 10) / 2).floor()}'
                           : ((abilityTotals[abilityCost.key]! - 10) / 2)
-                              .truncate()
+                              .floor()
                               .toString())),
                     ]),
                 ]),

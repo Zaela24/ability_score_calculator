@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Point Buy Calculator',
       theme: ThemeData.dark(),
-      home: const PathfinderPointBuyScreen(),
+      home: const DND5ePointBuyScreen(),
     );
   }
 }

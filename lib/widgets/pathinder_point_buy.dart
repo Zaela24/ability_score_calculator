@@ -230,9 +230,9 @@ class _PathfinderPointBuyScreenState extends State<PathfinderPointBuyScreen> {
                           Text((abilityTotals[abilityCost.key]).toString())),
                       // modifer -- displays + if total score 12+
                       DataCell(Text(abilityTotals[abilityCost.key]! > 11
-                          ? '+${((abilityTotals[abilityCost.key]! - 10) / 2).truncate()}'
+                          ? '+${((abilityTotals[abilityCost.key]! - 10) / 2).floor()}'
                           : ((abilityTotals[abilityCost.key]! - 10) / 2)
-                              .truncate()
+                              .floor()
                               .toString())),
                     ]),
                 ]),
