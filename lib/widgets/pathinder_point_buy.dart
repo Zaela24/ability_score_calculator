@@ -1,5 +1,6 @@
 import 'package:ability_score_calculator/data/races.dart';
 import 'package:ability_score_calculator/models/campaign_type.dart';
+import 'package:ability_score_calculator/models/race.dart';
 import 'package:ability_score_calculator/models/score_costs.dart';
 import 'package:flutter/material.dart';
 
@@ -25,6 +26,15 @@ class _PathfinderPointBuyScreenState extends State<PathfinderPointBuyScreen> {
     'CHA': 0,
   };
 
+  Map<String, int> customRacialMods = {
+    'STR': 0,
+    'DEX': 0,
+    'CON': 0,
+    'INT': 0,
+    'WIS': 0,
+    'CHA': 0,
+  };
+
   int get abilityCostTotal => abilityCosts.values.reduce((a, b) => a + b);
 
   @override
@@ -38,14 +48,23 @@ class _PathfinderPointBuyScreenState extends State<PathfinderPointBuyScreen> {
       'WIS': 0,
       'CHA': 0,
     };
+    Race fullSelectedRace =
+        pathinderRaces.firstWhere((race) => race.name == selectedRace);
     for (final abilityCost in abilityCosts.entries) {
-      abilityTotals[abilityCost.key] = pathfinder1eScoreCosts.keys.firstWhere(
-              (key) =>
-                  pathfinder1eScoreCosts[key] ==
-                  abilityCosts[abilityCost.key]) +
-          pathinderRaces
-              .firstWhere((race) => race.name == selectedRace)
-              .abilityScoreMods[abilityCost.key]!;
+      if (fullSelectedRace.abilityScoreMods.values
+          .every((racialMod) => racialMod == 0)) {
+        abilityTotals[abilityCost.key] = pathfinder1eScoreCosts.keys.firstWhere(
+                (key) =>
+                    pathfinder1eScoreCosts[key] ==
+                    abilityCosts[abilityCost.key]) +
+            customRacialMods[abilityCost.key]!;
+      } else {
+        abilityTotals[abilityCost.key] = pathfinder1eScoreCosts.keys.firstWhere(
+                (key) =>
+                    pathfinder1eScoreCosts[key] ==
+                    abilityCosts[abilityCost.key]) +
+            fullSelectedRace.abilityScoreMods[abilityCost.key]!;
+      }
     }
 
     return Scaffold(
@@ -178,10 +197,34 @@ class _PathfinderPointBuyScreenState extends State<PathfinderPointBuyScreen> {
                       // ability score point buy cost
                       DataCell(Text(abilityCost.value.toString())),
                       // racial modifier
-                      DataCell(Text(pathinderRaces
-                          .firstWhere((race) => race.name == selectedRace)
-                          .abilityScoreMods[abilityCost.key]
-                          .toString())),
+                      if (fullSelectedRace.abilityScoreMods.values
+                          .every((racialMod) => racialMod == 0))
+                        DataCell(SizedBox(
+                          width: scoreDropdownWidth,
+                          child: DropdownMenu(
+                            width: scoreDropdownWidth,
+                            dropdownMenuEntries: const [
+                              DropdownMenuEntry(value: 0, label: '0'),
+                              DropdownMenuEntry(value: 2, label: '2'),
+                            ],
+                            enabled: customRacialMods.values.every(
+                                    (customRacialMod) =>
+                                        customRacialMod == 0) ||
+                                customRacialMods[abilityCost.key] == 2,
+                            initialSelection: customRacialMods[abilityCost.key],
+                            onSelected: (value) {
+                              setState(() {
+                                customRacialMods[abilityCost.key] = value!;
+                              });
+                            },
+                            inputDecorationTheme: const InputDecorationTheme(
+                                border: InputBorder.none),
+                          ),
+                        ))
+                      else
+                        DataCell(Text(fullSelectedRace
+                            .abilityScoreMods[abilityCost.key]
+                            .toString())),
                       // total score
                       DataCell(
                           Text((abilityTotals[abilityCost.key]).toString())),
