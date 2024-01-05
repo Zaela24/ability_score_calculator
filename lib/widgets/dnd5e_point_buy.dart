@@ -23,6 +23,14 @@ class _DND5ePointBuyScreenState extends State<DND5ePointBuyScreen> {
     'WIS': 0,
     'CHA': 0,
   };
+  Map<String, int> customRacialMods = {
+    'STR': 0,
+    'DEX': 0,
+    'CON': 0,
+    'INT': 0,
+    'WIS': 0,
+    'CHA': 0,
+  };
 
   int get abilityCostTotal => abilityCosts.values.reduce((a, b) => a + b);
 
@@ -41,21 +49,30 @@ class _DND5ePointBuyScreenState extends State<DND5ePointBuyScreen> {
     List<Race>? subRaces = fullSelectedRace.subRaces;
     if (subRaces != null &&
         (selectedSubRace == null ||
-            !subRaces!
+            !subRaces
                 .map((subRace) => subRace.name)
                 .contains(selectedSubRace))) {
       selectedSubRace = subRaces.first.name;
     }
 
     for (final abilityCost in abilityCosts.entries) {
-      abilityTotals[abilityCost.key] = dnd5eScoreCosts.keys.firstWhere(
-              (key) => dnd5eScoreCosts[key] == abilityCosts[abilityCost.key]) +
-          fullSelectedRace.abilityScoreMods[abilityCost.key]! +
-          (subRaces != null && selectedSubRace != null
-              ? subRaces
-                  .firstWhere((subRace) => subRace.name == selectedSubRace)
-                  .abilityScoreMods[abilityCost.key]!
-              : 0);
+      if (selectedRace == 'Half-Elf') {
+        abilityTotals[abilityCost.key] = dnd5eScoreCosts.keys.firstWhere(
+                (key) =>
+                    dnd5eScoreCosts[key] == abilityCosts[abilityCost.key]) +
+            fullSelectedRace.abilityScoreMods[abilityCost.key]! +
+            customRacialMods[abilityCost.key]!;
+      } else {
+        abilityTotals[abilityCost.key] = dnd5eScoreCosts.keys.firstWhere(
+                (key) =>
+                    dnd5eScoreCosts[key] == abilityCosts[abilityCost.key]) +
+            fullSelectedRace.abilityScoreMods[abilityCost.key]! +
+            (subRaces != null && selectedSubRace != null
+                ? subRaces
+                    .firstWhere((subRace) => subRace.name == selectedSubRace)
+                    .abilityScoreMods[abilityCost.key]!
+                : 0);
+      }
     }
 
     return Scaffold(
@@ -152,15 +169,44 @@ class _DND5ePointBuyScreenState extends State<DND5ePointBuyScreen> {
                       // ability score point buy cost
                       DataCell(Text(abilityCost.value.toString())),
                       // racial modifier
-                      DataCell(Text(
-                          (fullSelectedRace.abilityScoreMods[abilityCost.key]! +
-                                  (subRaces != null && selectedSubRace != null
-                                      ? subRaces
-                                          .firstWhere((subRace) =>
-                                              subRace.name == selectedSubRace)
-                                          .abilityScoreMods[abilityCost.key]!
-                                      : 0))
-                              .toString())),
+                      if (selectedRace == 'Half-Elf' &&
+                          abilityCost.key != 'CHA')
+                        DataCell(
+                          SizedBox(
+                            width: scoreDropdownWidth,
+                            child: DropdownMenu(
+                              width: scoreDropdownWidth,
+                              dropdownMenuEntries: const [
+                                DropdownMenuEntry(value: 0, label: '0'),
+                                DropdownMenuEntry(value: 1, label: '1')
+                              ],
+                              enabled: customRacialMods.values
+                                          .where((customMod) => customMod == 1)
+                                          .length <
+                                      2 ||
+                                  customRacialMods[abilityCost.key] == 1,
+                              initialSelection:
+                                  customRacialMods[abilityCost.key],
+                              onSelected: (value) {
+                                setState(() {
+                                  customRacialMods[abilityCost.key] = value!;
+                                });
+                              },
+                              inputDecorationTheme: const InputDecorationTheme(
+                                  border: InputBorder.none),
+                            ),
+                          ),
+                        )
+                      else
+                        DataCell(Text((fullSelectedRace
+                                    .abilityScoreMods[abilityCost.key]! +
+                                (subRaces != null && selectedSubRace != null
+                                    ? subRaces
+                                        .firstWhere((subRace) =>
+                                            subRace.name == selectedSubRace)
+                                        .abilityScoreMods[abilityCost.key]!
+                                    : 0))
+                            .toString())),
                       // total score
                       DataCell(
                           Text((abilityTotals[abilityCost.key]).toString())),
