@@ -39,7 +39,11 @@ class _DND5ePointBuyScreenState extends State<DND5ePointBuyScreen> {
     Race fullSelectedRace =
         dnd5eRaces.firstWhere((race) => race.name == selectedRace);
     List<Race>? subRaces = fullSelectedRace.subRaces;
-    if (subRaces != null) {
+    if (subRaces != null &&
+        (selectedSubRace == null ||
+            !subRaces!
+                .map((subRace) => subRace.name)
+                .contains(selectedSubRace))) {
       selectedSubRace = subRaces.first.name;
     }
 
