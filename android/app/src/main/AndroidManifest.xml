@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="ability_score_calculator"
+        android:label="Ability Score Calculator"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
