@@ -13,7 +13,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Point Buy Calculator',
-      theme: ThemeData.dark(),
+      theme: ThemeData(),
+      darkTheme: ThemeData.dark(),
       home: const PathfinderPointBuyScreen(),
     );
   }
