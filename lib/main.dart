@@ -1,4 +1,3 @@
-import 'package:ability_score_calculator/widgets/dnd5e_point_buy.dart';
 import 'package:ability_score_calculator/widgets/pathinder_point_buy.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Point Buy Calculator',
       theme: ThemeData.dark(),
-      home: const DND5ePointBuyScreen(),
+      home: const PathfinderPointBuyScreen(),
     );
   }
 }

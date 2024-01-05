@@ -2,6 +2,8 @@ import 'package:ability_score_calculator/data/races.dart';
 import 'package:ability_score_calculator/models/campaign_type.dart';
 import 'package:ability_score_calculator/models/race.dart';
 import 'package:ability_score_calculator/models/score_costs.dart';
+import 'package:ability_score_calculator/widgets/dnd5e_point_buy.dart';
+import 'package:ability_score_calculator/widgets/main_drawer.dart';
 import 'package:flutter/material.dart';
 
 class PathfinderPointBuyScreen extends StatefulWidget {
@@ -36,6 +38,18 @@ class _PathfinderPointBuyScreenState extends State<PathfinderPointBuyScreen> {
   };
 
   int get abilityCostTotal => abilityCosts.values.reduce((a, b) => a + b);
+
+  void _setScreen(String identifier) async {
+    Navigator.of(context).pop();
+
+    if (identifier == 'dnd') {
+      await Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (ctx) => const DND5ePointBuyScreen(),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +86,7 @@ class _PathfinderPointBuyScreenState extends State<PathfinderPointBuyScreen> {
         title: const Text('Ability Scores'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
+      drawer: MainDrawer(onSelectScreen: _setScreen),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
