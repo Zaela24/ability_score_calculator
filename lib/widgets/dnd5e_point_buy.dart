@@ -36,15 +36,17 @@ class _DND5ePointBuyScreenState extends State<DND5ePointBuyScreen> {
       'WIS': 0,
       'CHA': 0,
     };
-    List<Race>? subRaces =
-        dnd5eRaces.firstWhere((race) => race.name == selectedRace).subRaces;
+    Race fullSelectedRace =
+        dnd5eRaces.firstWhere((race) => race.name == selectedRace);
+    List<Race>? subRaces = fullSelectedRace.subRaces;
+    if (subRaces != null) {
+      selectedSubRace = subRaces.first.name;
+    }
 
     for (final abilityCost in abilityCosts.entries) {
       abilityTotals[abilityCost.key] = dnd5eScoreCosts.keys.firstWhere(
               (key) => dnd5eScoreCosts[key] == abilityCosts[abilityCost.key]) +
-          dnd5eRaces
-              .firstWhere((race) => race.name == selectedRace)
-              .abilityScoreMods[abilityCost.key]! +
+          fullSelectedRace.abilityScoreMods[abilityCost.key]! +
           (subRaces != null && selectedSubRace != null
               ? subRaces
                   .firstWhere((subRace) => subRace.name == selectedSubRace)
@@ -92,6 +94,7 @@ class _DND5ePointBuyScreenState extends State<DND5ePointBuyScreen> {
                         DropdownMenuEntry(
                             value: subRace.name, label: subRace.name)
                     ],
+                    initialSelection: selectedSubRace,
                     onSelected: (subRace) {
                       setState(() {
                         selectedSubRace = subRace;
@@ -145,17 +148,15 @@ class _DND5ePointBuyScreenState extends State<DND5ePointBuyScreen> {
                       // ability score point buy cost
                       DataCell(Text(abilityCost.value.toString())),
                       // racial modifier
-                      DataCell(Text((dnd5eRaces
-                                  .firstWhere(
-                                      (race) => race.name == selectedRace)
-                                  .abilityScoreMods[abilityCost.key]! +
-                              (subRaces != null && selectedSubRace != null
-                                  ? subRaces
-                                      .firstWhere((subRace) =>
-                                          subRace.name == selectedSubRace)
-                                      .abilityScoreMods[abilityCost.key]!
-                                  : 0))
-                          .toString())),
+                      DataCell(Text(
+                          (fullSelectedRace.abilityScoreMods[abilityCost.key]! +
+                                  (subRaces != null && selectedSubRace != null
+                                      ? subRaces
+                                          .firstWhere((subRace) =>
+                                              subRace.name == selectedSubRace)
+                                          .abilityScoreMods[abilityCost.key]!
+                                      : 0))
+                              .toString())),
                       // total score
                       DataCell(
                           Text((abilityTotals[abilityCost.key]).toString())),
