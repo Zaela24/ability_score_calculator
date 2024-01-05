@@ -1,16 +1,13 @@
-# ability_score_calculator
+# Ability Score Calculator
 
-A new Flutter project.
+## Privacy Policy
 
-## Getting Started
+This app does not connect to the internet and does not collect any user data.
 
-This project is a starting point for a Flutter application.
+## App Source Code
 
-A few resources to get you started if this is your first Flutter project:
+You may review the app source code at https://github.com/Zaela24/ability_score_calculator
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+The app is source-available, but is not open source. Please do not replicate this app for commercial use.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Suggestions are welcome in the Issues tab on GitHub.
