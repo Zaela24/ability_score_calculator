@@ -48,7 +48,26 @@ class _PathfinderDiceRollScreenState extends State<PathfinderDiceRollScreen> {
                     });
                   },
                   icon: const FaIcon(FontAwesomeIcons.diceD20),
-                  label: const Text('Standard Roll'))
+                  label: const Text('Standard Roll')),
+              Tooltip(
+                message:
+                    "Rolls six 4d6, dropping the lowest roll; assign in any order.",
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color.fromARGB(255, 255, 7, 255),
+                      Color.fromARGB(255, 1, 140, 159)
+                    ],
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                  ),
+                ),
+                textStyle: const TextStyle(color: Colors.white),
+                child: FaIcon(
+                  FontAwesomeIcons.circleQuestion,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              )
             ],
           ),
           const SizedBox(height: 16),
@@ -73,7 +92,25 @@ class _PathfinderDiceRollScreenState extends State<PathfinderDiceRollScreen> {
                     });
                   },
                   icon: const FaIcon(FontAwesomeIcons.diceD20),
-                  label: const Text('Classic Roll'))
+                  label: const Text('Classic Roll')),
+              Tooltip(
+                message: "Rolls six 3d6; assign in any order.",
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color.fromARGB(255, 188, 3, 188),
+                      Color.fromARGB(255, 1, 140, 159)
+                    ],
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                  ),
+                ),
+                textStyle: const TextStyle(color: Colors.white),
+                child: FaIcon(
+                  FontAwesomeIcons.circleQuestion,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              )
             ],
           ),
           const SizedBox(height: 16),
@@ -98,7 +135,25 @@ class _PathfinderDiceRollScreenState extends State<PathfinderDiceRollScreen> {
                     });
                   },
                   icon: const FaIcon(FontAwesomeIcons.diceD20),
-                  label: const Text('Heroic Roll'))
+                  label: const Text('Heroic Roll')),
+              Tooltip(
+                message: "Rolls six 2d6 + 6; assign in any order.",
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color.fromARGB(255, 255, 7, 255),
+                      Color.fromARGB(255, 1, 140, 159)
+                    ],
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                  ),
+                ),
+                textStyle: const TextStyle(color: Colors.white),
+                child: FaIcon(
+                  FontAwesomeIcons.circleQuestion,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              )
             ],
           ),
         ],
