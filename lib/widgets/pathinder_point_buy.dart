@@ -185,8 +185,16 @@ class _PathfinderPointBuyScreenState extends State<PathfinderPointBuyScreen> {
                             abilityCosts[abilityCost.key] = cost!;
                           });
                         },
+                        textStyle: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(color: Colors.transparent, shadows: [
+                          Shadow(
+                              offset: const Offset(0, -5),
+                              color: Theme.of(context).colorScheme.onBackground)
+                        ]),
                         inputDecorationTheme: const InputDecorationTheme(
-                            border: InputBorder.none),
+                            isDense: true, border: InputBorder.none),
                       ),
                     )),
                     // ability score point buy cost
@@ -211,8 +219,17 @@ class _PathfinderPointBuyScreenState extends State<PathfinderPointBuyScreen> {
                               customRacialMods[abilityCost.key] = value!;
                             });
                           },
+                          textStyle: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(color: Colors.transparent, shadows: [
+                            Shadow(
+                                offset: const Offset(0, -5),
+                                color:
+                                    Theme.of(context).colorScheme.onBackground)
+                          ]),
                           inputDecorationTheme: const InputDecorationTheme(
-                              border: InputBorder.none),
+                              isDense: true, border: InputBorder.none),
                         ),
                       ))
                     else
