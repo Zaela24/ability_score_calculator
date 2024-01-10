@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MainDrawer extends StatelessWidget {
   const MainDrawer({
@@ -36,6 +37,7 @@ class MainDrawer extends StatelessWidget {
           ),
         ),
         ListTile(
+          leading: const FaIcon(FontAwesomeIcons.diceD20),
           title: Text(
             'Pathfinder 1e',
             style: Theme.of(context).textTheme.titleLarge!.copyWith(
@@ -48,6 +50,7 @@ class MainDrawer extends StatelessWidget {
           },
         ),
         ListTile(
+          leading: const FaIcon(FontAwesomeIcons.dAndD),
           title: Text(
             'D&D 5e',
             style: Theme.of(context).textTheme.titleLarge!.copyWith(

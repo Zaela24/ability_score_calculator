@@ -2,7 +2,7 @@ import 'package:ability_score_calculator/data/races.dart';
 import 'package:ability_score_calculator/models/race.dart';
 import 'package:ability_score_calculator/models/score_costs.dart';
 import 'package:ability_score_calculator/widgets/main_drawer.dart';
-import 'package:ability_score_calculator/widgets/pathinder_point_buy.dart';
+import 'package:ability_score_calculator/widgets/pathfinder_tabs.dart';
 import 'package:flutter/material.dart';
 
 class DND5ePointBuyScreen extends StatefulWidget {
@@ -42,7 +42,7 @@ class _DND5ePointBuyScreenState extends State<DND5ePointBuyScreen> {
     if (identifier == 'pathfinder') {
       await Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (ctx) => const PathfinderPointBuyScreen(),
+          builder: (ctx) => const PathfinderTabsScreen(),
         ),
       );
     }

@@ -1,4 +1,4 @@
-import 'package:ability_score_calculator/widgets/pathinder_point_buy.dart';
+import 'package:ability_score_calculator/widgets/pathfinder_tabs.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'Point Buy Calculator',
       theme: ThemeData(),
       darkTheme: ThemeData.dark(),
-      home: const PathfinderPointBuyScreen(),
+      home: const PathfinderTabsScreen(),
     );
   }
 }
